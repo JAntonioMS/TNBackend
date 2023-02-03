@@ -17,33 +17,25 @@ public class UserEndPoint {
     private UserServices userServices;
 
 
-    @PostMapping("/getUser")
-    //@CrossOrigin
-    public boolean getUser(){
-        System.out.println("Hola mozo");
-
-        userServices.getListUser().forEach(e -> System.out.println("Hola " + e.getUsername() + " como estas 123!!!"));
-
-        return false;
-    }
-
-    @GetMapping("/registerNewUser") // 💪
+    @PostMapping ("/registerNewUser") // 💪
+    @CrossOrigin
     public boolean registerNewUser(@RequestParam() Map<String, Object> data){
         if (validateUser(data.get("username").toString())){
-            System.out.println(data.toString());
-            return userServices.registerNewUser(data);
-        }else{
             System.out.println("Usuario existente");
             return false;
+        }else{
+            System.out.println(data.toString());
+            return userServices.registerNewUser(data);
         }
     }
 
-    @GetMapping("/validateUser") // 💪
+    @PostMapping("/validateUser") // 💪
+    @CrossOrigin
     public boolean validateUser(@RequestParam() String username){
         if (userServices.verifyUser(username).isEmpty()){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     }
 

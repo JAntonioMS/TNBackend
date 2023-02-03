@@ -7,8 +7,6 @@ import java.util.Map;
 
 public interface UserServices {
 
-    List<UserDTO> getListUser();
-
     List<UserDTO> verifyUser(String username);
 
     boolean registerNewUser(Map<String, Object> datos);

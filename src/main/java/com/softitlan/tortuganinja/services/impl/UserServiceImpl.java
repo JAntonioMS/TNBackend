@@ -19,17 +19,6 @@ public class UserServiceImpl implements UserServices {
     private UserRepository userRepository;
 
     @Override
-    public List<UserDTO> getListUser() {
-
-        List<UserVO> userVOS = userRepository.getUser();
-        List<UserDTO> userDTOList = new ArrayList<>();
-
-        userVOS.forEach(e -> userDTOList.add(new UserDTO(e.getId(), e.getUsername(), e.getPassword())));
-
-        return userDTOList;
-    }
-
-    @Override
     public boolean registerNewUser(Map<String, Object> datos) {
         boolean flag = false;
         try {
