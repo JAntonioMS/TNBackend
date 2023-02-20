@@ -116,15 +116,15 @@ public class AccountServiceImpl implements AccountServices {
     }
 
     @Override
-    public boolean deleteAccount(Integer idUser, Integer idAccount){
+    public boolean deleteAccount(String username, Integer idAccount, String password){
         boolean flag = false;
         try{
-
+            accountRepository.deleteById(idAccount);
             flag = true;
         }catch (Exception e){
             System.out.println(e.getCause() + e.getMessage());
         }
-        return true;
+        return flag;
     }
 
     @Override

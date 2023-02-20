@@ -13,7 +13,7 @@ public interface AccountServices {
 
     boolean insertAccount(Map<String, Object> datos);
 
-    boolean deleteAccount(Integer idUser, Integer idAccount);
+    boolean deleteAccount(String username, Integer idAccount, String password);
 
     boolean updateAccount(Map<String, Object> datos);
 }

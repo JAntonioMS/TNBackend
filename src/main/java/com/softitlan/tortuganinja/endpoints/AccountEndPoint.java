@@ -44,7 +44,18 @@ public class AccountEndPoint {
     }
 
     @PostMapping("/deleteAccount")
-    public boolean deleteAccount(@RequestParam() Integer idUser, Integer idAccount){
+    public boolean deleteAccount(@RequestParam() String username, Integer idAccount, String password){
+        if( username == null || idAccount == null || password == null){
+            System.out.println("Faltan parametros");
+            return false;
+        }else {
+            if (userServices.verifyUser(username).isEmpty()){
+                System.out.println("El usuario no existe");
+                return false;
+            }else {
+                accountServices.deleteAccount(username, idAccount, password);
+            }
+        }
         return true;
     }
 }
