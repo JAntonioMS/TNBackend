@@ -2,6 +2,7 @@ package com.softitlan.tortuganinja.endpoints;
 
 import com.softitlan.tortuganinja.repository.AccountRepository;
 import com.softitlan.tortuganinja.services.AccountServices;
+import com.softitlan.tortuganinja.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ public class AccountEndPoint {
     @Autowired
     private AccountServices accountServices;
 
+    @Autowired
+    private UserServices userServices;
     //
     @GetMapping("/getAccounts")
     public boolean getAccounts(@RequestParam() Integer id_user){
@@ -26,39 +29,22 @@ public class AccountEndPoint {
 
     //@GetMapping("/saveAccount")
     @PostMapping("/saveAccount")
-    public boolean saveAccount(@RequestParam() Map<String, Object> datos){
-        return accountServices.insertAccount(datos);
-        /*
-        if (validateUser(data.get("username").toString())){
-            System.out.println(data.toString());
-            return userServices.registerNewUser(data);
-        }else{
-            System.out.println("Usuario existente");
+    @CrossOrigin
+    public boolean saveAccount(@RequestParam() Map<String, Object> datos, String username, String password){
+        if (userServices.verifyUser(username).isEmpty()){
             return false;
+        }else{
+            if (datos.get("idAccount") == null){
+                return accountServices.insertAccount(datos);
+            }else{
+                System.out.println("PAso por aqui");
+                return accountServices.updateAccount(datos);
+            }
         }
-         */
     }
 
-    /*
-    @Override
-    public boolean updateCliente(String id, Map<String, Object> datostoUpdate) {
-        boolean flag = false;
-
-        try {
-            Optional<ClienteVO> clienteVO = clienteRepository.findById(Integer.parseInt(id));
-
-            if ( clienteVO.isPresent() ){
-                clienteVO.get().setCorreo( datostoUpdate.get("correo").toString() );
-                clienteRepository.save(clienteVO.get());
-                flag = true;
-            }else throw new Exception();
-
-        }catch (Exception e){
-            System.out.println(e.getCause() + e.getMessage());
-        }
-
-        return flag;
+    @PostMapping("/deleteAccount")
+    public boolean deleteAccount(@RequestParam() Integer idUser, Integer idAccount){
+        return true;
     }
-
-     */
 }

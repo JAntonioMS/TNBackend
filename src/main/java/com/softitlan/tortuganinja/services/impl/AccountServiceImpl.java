@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountServices {
@@ -51,15 +52,40 @@ public class AccountServiceImpl implements AccountServices {
             accountVO.setId_user(Integer.parseInt(datos.get("id_user").toString()));
             accountVO.setTitle(datos.get("title").toString());
             accountVO.setLabel1(datos.get("label1").toString());
-            accountVO.setLabel2(datos.get("label2").toString());
-            accountVO.setLabel3(datos.get("label3").toString());
-            accountVO.setLabel4(datos.get("label4").toString());
-            accountVO.setLabel5(datos.get("label5").toString());
+
+            if( datos.get("label2") != null ) {
+                accountVO.setLabel2(datos.get("label2").toString());
+            }
+
+            if( datos.get("label3") != null ) {
+                accountVO.setLabel3(datos.get("label3").toString());
+            }
+
+            if( datos.get("label4") != null ) {
+                accountVO.setLabel4(datos.get("label4").toString());
+            }
+
+            if( datos.get("label5") != null ) {
+                accountVO.setLabel5(datos.get("label5").toString());
+            }
+
             accountVO.setValue1(datos.get("value1").toString());
-            accountVO.setValue2(datos.get("value2").toString());
-            accountVO.setValue3(datos.get("value3").toString());
-            accountVO.setValue4(datos.get("value4").toString());
-            accountVO.setValue5(datos.get("value5").toString());
+
+            if( datos.get("value2") != null ) {
+                accountVO.setValue2(datos.get("value2").toString());
+            }
+
+            if( datos.get("value3") != null ) {
+                accountVO.setValue3(datos.get("value3").toString());
+            }
+
+            if( datos.get("value4") != null ) {
+                accountVO.setValue4(datos.get("value4").toString());
+            }
+
+            if( datos.get("value5") != null ) {
+                accountVO.setValue5(datos.get("value5").toString());
+            }
 
             flag = true;
 
@@ -89,4 +115,76 @@ public class AccountServiceImpl implements AccountServices {
          */
     }
 
+    @Override
+    public boolean deleteAccount(Integer idUser, Integer idAccount){
+        boolean flag = false;
+        try{
+
+            flag = true;
+        }catch (Exception e){
+            System.out.println(e.getCause() + e.getMessage());
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateAccount(Map<String, Object> datos) {
+        boolean flag = false;
+        try {
+            Optional<AccountVO> accountVO = accountRepository.findById(Integer.parseInt(datos.get("idAccount").toString()));
+
+            if ( accountVO.isPresent() ){
+
+                if(datos.get("title") != null){
+                    accountVO.get().setTitle(datos.get("title").toString());
+                }
+
+                if (datos.get("label1") != null){
+                    accountVO.get().setLabel1(datos.get("label1").toString());
+                }
+
+                if (datos.get("label2") != null){
+                    accountVO.get().setLabel2(datos.get("label2").toString());
+                }
+
+                if (datos.get("label3") != null){
+                    accountVO.get().setLabel3(datos.get("label3").toString());
+                }
+
+                if (datos.get("label4") != null){
+                    accountVO.get().setLabel4(datos.get("label4").toString());
+                }
+
+                if (datos.get("label5") != null){
+                    accountVO.get().setLabel5(datos.get("label5").toString());
+                }
+
+                if (datos.get("value1") != null){
+                    accountVO.get().setValue1(datos.get("value1").toString());
+                }
+
+                if (datos.get("value2") != null){
+                    accountVO.get().setValue2(datos.get("value2").toString());
+                }
+
+                if (datos.get("value3") != null){
+                    accountVO.get().setValue3(datos.get("value3").toString());
+                }
+
+                if (datos.get("value4") != null){
+                    accountVO.get().setValue4(datos.get("value4").toString());
+                }
+
+                if (datos.get("value5") != null){
+                    accountVO.get().setValue5(datos.get("value5").toString());
+                }
+                accountRepository.save(accountVO.get());
+                flag = true;
+            }else throw new Exception();
+        }catch (Exception e) {
+            System.out.println(e.getCause() + e.getMessage());
+        }
+        return flag;
+    }
 }
+
